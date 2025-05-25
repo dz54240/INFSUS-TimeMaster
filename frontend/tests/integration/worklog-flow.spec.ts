@@ -47,6 +47,12 @@ test.beforeAll(async ({ browser }) => {
   await page.close();
 });
 
+test.afterAll(async ({ browser }) => {
+  const reqContext = await request.newContext();
+  await reqContext.post("http://localhost:3000/api/reset");
+  await reqContext.dispose();
+});
+
 test.describe("Owner Flow", () => {
   test.beforeEach(async ({ page }) => {
     await page.goto("http://localhost:5173/login");
