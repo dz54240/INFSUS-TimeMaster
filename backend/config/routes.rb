@@ -26,10 +26,6 @@ Rails.application.routes.draw do
       end
     end
 
-    if Rails.env.test?
-      namespace :test do
-        post :reset, to: 'test#reset'
-      end
-    end
+    post 'reset', to: 'tests#reset' if Rails.env.test?
   end
 end

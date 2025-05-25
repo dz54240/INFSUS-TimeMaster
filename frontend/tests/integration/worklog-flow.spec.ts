@@ -7,7 +7,7 @@ var org = "Firmaa1";
 test.beforeAll(async ({ browser }) => {
   const page = await browser.newPage();
   const reqContext = await request.newContext();
-  await reqContext.post("http://localhost:3000/api/test/reset");
+  await reqContext.post("http://localhost:3000/api/reset");
   await reqContext.dispose();
 
   // create users
@@ -108,6 +108,7 @@ test.describe("Owner Flow", () => {
   test("Owner can create invitation", async ({ page }) => {
     await page.getByRole("link", { name: "Organizations" }).click();
     await page.getByRole("button", { name: "Invitations" }).click();
+    await page.getByRole("button", { name: "Create invitations" }).click();
     await page.getByRole("button", { name: "Create invitations" }).click();
     await page.waitForTimeout(3000);
 

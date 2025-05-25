@@ -16,7 +16,7 @@ Konačna verzija 3. zadaće u okviru kolegija Informacijski sustavi
   - `rails db:migrate`
   - `RAILS_ENV=test rails db:prepare`
 - pokrenuti naredbu `rails s` za pokretanje servera
-- pokretanje unit testova: `bundle exec rspec`
+- pokretanje unit testova (server ne mora biti upaljen): `bundle exec rspec`
 
 ## Pokretanje frontend servera
 - Korisnik mora imati instaliran Node.js i npm.
@@ -28,8 +28,10 @@ Konačna verzija 3. zadaće u okviru kolegija Informacijski sustavi
 - Pokretanje aplikacije:
   - `npm run dev`
 - Aplikacija će biti dostupna na: `http://localhost:5173/`
+
 ## Pokretanje integracijskih testova:
 - Instalirati Playwright ako nije već instaliran: `npx playwright install`
+- backend server mora biti upaljen u test enviromentu: `RAILS_ENV=test rails s`
+- frontend server mora biti upaljen: `npm run dev`
 - Pokreni sve testove: `npx playwright test`
-- Pregled rezultata testiranja u pregledniku: `npx playwright show-report`
 - Pokretanje testova u pregledniku (debug način): `npx playwright test --headed`

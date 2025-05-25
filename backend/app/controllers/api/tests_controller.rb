@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-module Test
-  class TestController < ApplicationController
+module Api
+  class TestsController < ApplicationController
     def reset
       ActiveRecord::Base.connection.disable_referential_integrity do
         ActiveRecord::Base.connection.tables.each do |table|
