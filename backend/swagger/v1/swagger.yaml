@@ -1,0 +1,2239 @@
+---
+openapi: 3.0.1
+info:
+  title: API V1
+  version: v1
+paths:
+  "/api/employments":
+    get:
+      summary: Lists employments
+      tags:
+      - Employments
+      security:
+      - bearer_auth: []
+      parameters:
+      - name: Authorization
+        in: header
+        description: Bearer token for authentication
+        schema:
+          type: string
+      responses:
+        '200':
+          description: employments found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                        type:
+                          type: string
+                          enum:
+                          - employment
+                        attributes:
+                          type: object
+                          properties:
+                            organization_id:
+                              type: integer
+                            user_id:
+                              type: integer
+                            created_at:
+                              type: string
+                              format: date-time
+                            updated_at:
+                              type: string
+                              format: date-time
+                        relationships:
+                          type: object
+                          properties:
+                            user:
+                              type: object
+                              properties:
+                                data:
+                                  type: object
+                                  properties:
+                                    id:
+                                      type: string
+                                    type:
+                                      type: string
+                                      enum:
+                                      - user
+                  included:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                        type:
+                          type: string
+                          enum:
+                          - user
+                        attributes:
+                          type: object
+                          properties:
+                            email:
+                              type: string
+                            first_name:
+                              type: string
+                            last_name:
+                              type: string
+                            role:
+                              type: string
+                            hourly_rate:
+                              type: number
+                              nullable: true
+                            created_at:
+                              type: string
+                              format: date-time
+                            updated_at:
+                              type: string
+                              format: date-time
+        '401':
+          description: unauthorized
+        '403':
+          description: forbidden - user is not an owner
+    post:
+      summary: Creates an employment
+      tags:
+      - Employments
+      security:
+      - bearer_auth: []
+      parameters:
+      - name: Authorization
+        in: header
+        description: Bearer token for authentication
+        schema:
+          type: string
+      responses:
+        '201':
+          description: employment created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                      type:
+                        type: string
+                        enum:
+                        - employment
+                      attributes:
+                        type: object
+                        properties:
+                          organization_id:
+                            type: integer
+                          user_id:
+                            type: integer
+                          created_at:
+                            type: string
+                            format: date-time
+                          updated_at:
+                            type: string
+                            format: date-time
+                      relationships:
+                        type: object
+                        properties:
+                          user:
+                            type: object
+                            properties:
+                              data:
+                                type: object
+                                properties:
+                                  id:
+                                    type: string
+                                  type:
+                                    type: string
+                                    enum:
+                                    - user
+                  included:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                        type:
+                          type: string
+                          enum:
+                          - user
+                        attributes:
+                          type: object
+                          properties:
+                            email:
+                              type: string
+                            first_name:
+                              type: string
+                            last_name:
+                              type: string
+                            role:
+                              type: string
+                            hourly_rate:
+                              type: number
+                              nullable: true
+                            created_at:
+                              type: string
+                              format: date-time
+                            updated_at:
+                              type: string
+                              format: date-time
+        '401':
+          description: unauthorized
+        '403':
+          description: forbidden - user is not an employee
+        '422':
+          description: invalid request
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: object
+                  properties:
+                    organization_token:
+                      type: string
+                  required:
+                  - organization_token
+  "/api/employments/{id}":
+    parameters:
+    - name: id
+      in: path
+      required: true
+      description: Employment ID
+      schema:
+        type: integer
+    - name: Authorization
+      in: header
+      description: Bearer token for authentication
+      schema:
+        type: string
+    get:
+      summary: Retrieves an employment
+      tags:
+      - Employments
+      security:
+      - bearer_auth: []
+      responses:
+        '200':
+          description: employment found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                      type:
+                        type: string
+                        enum:
+                        - employment
+                      attributes:
+                        type: object
+                        properties:
+                          organization_id:
+                            type: integer
+                          user_id:
+                            type: integer
+                          created_at:
+                            type: string
+                            format: date-time
+                          updated_at:
+                            type: string
+                            format: date-time
+                      relationships:
+                        type: object
+                        properties:
+                          user:
+                            type: object
+                            properties:
+                              data:
+                                type: object
+                                properties:
+                                  id:
+                                    type: string
+                                  type:
+                                    type: string
+                                    enum:
+                                    - user
+                  included:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                        type:
+                          type: string
+                          enum:
+                          - user
+                        attributes:
+                          type: object
+                          properties:
+                            email:
+                              type: string
+                            first_name:
+                              type: string
+                            last_name:
+                              type: string
+                            role:
+                              type: string
+                            hourly_rate:
+                              type: number
+                              nullable: true
+                            created_at:
+                              type: string
+                              format: date-time
+                            updated_at:
+                              type: string
+                              format: date-time
+        '401':
+          description: unauthorized
+        '403':
+          description: forbidden - not organization owner
+        '404':
+          description: employment not found
+    delete:
+      summary: Deletes an employment
+      tags:
+      - Employments
+      security:
+      - bearer_auth: []
+      responses:
+        '204':
+          description: employment deleted
+        '401':
+          description: unauthorized
+        '403':
+          description: forbidden - not organization owner
+        '404':
+          description: employment not found
+  "/api/invitations":
+    get:
+      summary: Lists invitations
+      tags:
+      - Invitations
+      security:
+      - bearer_auth: []
+      parameters:
+      - name: Authorization
+        in: header
+        description: Bearer token for authentication
+        schema:
+          type: string
+      responses:
+        '200':
+          description: invitations found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                        type:
+                          type: string
+                          enum:
+                          - invitation
+                        attributes:
+                          type: object
+                          properties:
+                            token:
+                              type: string
+                            token_used:
+                              type: boolean
+                            organization_id:
+                              type: integer
+                            created_at:
+                              type: string
+                              format: date-time
+                            updated_at:
+                              type: string
+                              format: date-time
+        '401':
+          description: unauthorized
+        '403':
+          description: forbidden - user is not an owner
+    post:
+      summary: Creates an invitation
+      tags:
+      - Invitations
+      security:
+      - bearer_auth: []
+      parameters:
+      - name: Authorization
+        in: header
+        description: Bearer token for authentication
+        schema:
+          type: string
+      responses:
+        '201':
+          description: invitation created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                      type:
+                        type: string
+                        enum:
+                        - invitation
+                      attributes:
+                        type: object
+                        properties:
+                          token:
+                            type: string
+                          token_used:
+                            type: boolean
+                          organization_id:
+                            type: integer
+                          created_at:
+                            type: string
+                            format: date-time
+                          updated_at:
+                            type: string
+                            format: date-time
+        '401':
+          description: unauthorized
+        '403':
+          description: forbidden - user is not an owner
+        '422':
+          description: invalid request
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: object
+                  properties:
+                    organization_id:
+                      type: integer
+                  required:
+                  - organization_id
+  "/api/invitations/{id}":
+    parameters:
+    - name: id
+      in: path
+      required: true
+      description: Invitation ID
+      schema:
+        type: integer
+    - name: Authorization
+      in: header
+      description: Bearer token for authentication
+      schema:
+        type: string
+    get:
+      summary: Retrieves an invitation
+      tags:
+      - Invitations
+      security:
+      - bearer_auth: []
+      responses:
+        '200':
+          description: invitation found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                      type:
+                        type: string
+                        enum:
+                        - invitation
+                      attributes:
+                        type: object
+                        properties:
+                          token:
+                            type: string
+                          token_used:
+                            type: boolean
+                          organization_id:
+                            type: integer
+                          created_at:
+                            type: string
+                            format: date-time
+                          updated_at:
+                            type: string
+                            format: date-time
+        '401':
+          description: unauthorized
+        '403':
+          description: forbidden - not organization owner
+        '404':
+          description: invitation not found
+    delete:
+      summary: Deletes an invitation
+      tags:
+      - Invitations
+      security:
+      - bearer_auth: []
+      responses:
+        '204':
+          description: invitation deleted
+        '401':
+          description: unauthorized
+        '403':
+          description: forbidden - not organization owner
+        '404':
+          description: invitation not found
+  "/api/organizations":
+    get:
+      summary: Lists organizations
+      tags:
+      - Organizations
+      security:
+      - bearer_auth: []
+      parameters:
+      - name: Authorization
+        in: header
+        description: Bearer token for authentication
+        schema:
+          type: string
+      responses:
+        '200':
+          description: organizations found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                        name:
+                          type: string
+                        description:
+                          type: string
+                        established_at:
+                          type: string
+                          format: date
+                        owner_id:
+                          type: integer
+                        created_at:
+                          type: string
+                          format: date-time
+                        updated_at:
+                          type: string
+                          format: date-time
+        '401':
+          description: unauthorized
+    post:
+      summary: Creates an organization
+      tags:
+      - Organizations
+      security:
+      - bearer_auth: []
+      parameters:
+      - name: Authorization
+        in: header
+        description: Bearer token for authentication
+        schema:
+          type: string
+      responses:
+        '201':
+          description: organization created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                      name:
+                        type: string
+                      description:
+                        type: string
+                      established_at:
+                        type: string
+                        format: date
+                      owner_id:
+                        type: integer
+                      created_at:
+                        type: string
+                        format: date-time
+                      updated_at:
+                        type: string
+                        format: date-time
+        '401':
+          description: unauthorized
+        '403':
+          description: forbidden - user is not an owner
+        '422':
+          description: invalid request
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                    description:
+                      type: string
+                    established_at:
+                      type: string
+                      format: date
+                  required:
+                  - name
+  "/api/organizations/{id}":
+    parameters:
+    - name: id
+      in: path
+      required: true
+      description: Organization ID
+      schema:
+        type: integer
+    - name: Authorization
+      in: header
+      description: Bearer token for authentication
+      schema:
+        type: string
+    get:
+      summary: Retrieves an organization
+      tags:
+      - Organizations
+      security:
+      - bearer_auth: []
+      responses:
+        '200':
+          description: organization found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                      name:
+                        type: string
+                      description:
+                        type: string
+                      established_at:
+                        type: string
+                        format: date
+                      owner_id:
+                        type: integer
+                      created_at:
+                        type: string
+                        format: date-time
+                      updated_at:
+                        type: string
+                        format: date-time
+        '401':
+          description: unauthorized
+        '403':
+          description: forbidden - not owner or employee
+        '404':
+          description: organization not found
+    put:
+      summary: Updates an organization
+      tags:
+      - Organizations
+      security:
+      - bearer_auth: []
+      parameters: []
+      responses:
+        '200':
+          description: organization updated
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                      name:
+                        type: string
+                      description:
+                        type: string
+                      established_at:
+                        type: string
+                        format: date
+                      owner_id:
+                        type: integer
+                      created_at:
+                        type: string
+                        format: date-time
+                      updated_at:
+                        type: string
+                        format: date-time
+        '401':
+          description: unauthorized
+        '403':
+          description: forbidden - not owner
+        '404':
+          description: organization not found
+        '422':
+          description: invalid request
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                    description:
+                      type: string
+                    established_at:
+                      type: string
+                      format: date
+    delete:
+      summary: Deletes an organization
+      tags:
+      - Organizations
+      security:
+      - bearer_auth: []
+      responses:
+        '204':
+          description: organization deleted
+        '401':
+          description: unauthorized
+        '403':
+          description: forbidden - not owner
+        '404':
+          description: organization not found
+  "/api/projects":
+    get:
+      summary: Lists projects
+      tags:
+      - Projects
+      security:
+      - bearer_auth: []
+      parameters:
+      - name: Authorization
+        in: header
+        description: Bearer token for authentication
+        schema:
+          type: string
+      responses:
+        '200':
+          description: projects found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                        type:
+                          type: string
+                          enum:
+                          - project
+                        attributes:
+                          type: object
+                          properties:
+                            name:
+                              type: string
+                            description:
+                              type: string
+                            start_date:
+                              type: string
+                              format: date
+                            end_date:
+                              type: string
+                              format: date
+                            budget_amount:
+                              type: number
+                            organization_id:
+                              type: integer
+                            created_at:
+                              type: string
+                              format: date-time
+                            updated_at:
+                              type: string
+                              format: date-time
+        '401':
+          description: unauthorized
+    post:
+      summary: Creates a project
+      tags:
+      - Projects
+      security:
+      - bearer_auth: []
+      parameters:
+      - name: Authorization
+        in: header
+        description: Bearer token for authentication
+        schema:
+          type: string
+      responses:
+        '201':
+          description: project created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                      type:
+                        type: string
+                        enum:
+                        - project
+                      attributes:
+                        type: object
+                        properties:
+                          name:
+                            type: string
+                          description:
+                            type: string
+                          start_date:
+                            type: string
+                            format: date
+                          end_date:
+                            type: string
+                            format: date
+                          budget_amount:
+                            type: number
+                          organization_id:
+                            type: integer
+                          created_at:
+                            type: string
+                            format: date-time
+                          updated_at:
+                            type: string
+                            format: date-time
+        '401':
+          description: unauthorized
+        '403':
+          description: forbidden - user is not an owner
+        '422':
+          description: invalid request
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                    description:
+                      type: string
+                    start_date:
+                      type: string
+                      format: date
+                    end_date:
+                      type: string
+                      format: date
+                    budget_amount:
+                      type: number
+                    organization_id:
+                      type: integer
+                  required:
+                  - name
+                  - organization_id
+  "/api/projects/{id}":
+    parameters:
+    - name: id
+      in: path
+      required: true
+      description: Project ID
+      schema:
+        type: integer
+    - name: Authorization
+      in: header
+      description: Bearer token for authentication
+      schema:
+        type: string
+    get:
+      summary: Retrieves a project
+      tags:
+      - Projects
+      security:
+      - bearer_auth: []
+      responses:
+        '200':
+          description: project found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                      type:
+                        type: string
+                        enum:
+                        - project
+                      attributes:
+                        type: object
+                        properties:
+                          name:
+                            type: string
+                          description:
+                            type: string
+                          start_date:
+                            type: string
+                            format: date
+                          end_date:
+                            type: string
+                            format: date
+                          budget_amount:
+                            type: number
+                          organization_id:
+                            type: integer
+                          created_at:
+                            type: string
+                            format: date-time
+                          updated_at:
+                            type: string
+                            format: date-time
+        '401':
+          description: unauthorized
+        '403':
+          description: forbidden - not organization owner or employee
+        '404':
+          description: project not found
+    put:
+      summary: Updates a project
+      tags:
+      - Projects
+      security:
+      - bearer_auth: []
+      parameters: []
+      responses:
+        '200':
+          description: project updated
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                      type:
+                        type: string
+                        enum:
+                        - project
+                      attributes:
+                        type: object
+                        properties:
+                          name:
+                            type: string
+                          description:
+                            type: string
+                          start_date:
+                            type: string
+                            format: date
+                          end_date:
+                            type: string
+                            format: date
+                          budget_amount:
+                            type: number
+                          organization_id:
+                            type: integer
+                          created_at:
+                            type: string
+                            format: date-time
+                          updated_at:
+                            type: string
+                            format: date-time
+        '401':
+          description: unauthorized
+        '403':
+          description: forbidden - not organization owner
+        '404':
+          description: project not found
+        '422':
+          description: invalid request
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                    description:
+                      type: string
+                    start_date:
+                      type: string
+                      format: date
+                    end_date:
+                      type: string
+                      format: date
+                    budget_amount:
+                      type: number
+    delete:
+      summary: Deletes a project
+      tags:
+      - Projects
+      security:
+      - bearer_auth: []
+      responses:
+        '204':
+          description: project deleted
+        '401':
+          description: unauthorized
+        '403':
+          description: forbidden - not organization owner
+        '404':
+          description: project not found
+  "/api/session":
+    post:
+      summary: Creates a session
+      tags:
+      - Sessions
+      parameters: []
+      responses:
+        '201':
+          description: session created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      token:
+                        type: string
+                      user:
+                        type: object
+                        properties:
+                          id:
+                            type: integer
+                          email:
+                            type: string
+                          role:
+                            type: string
+        '400':
+          description: invalid credentials
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  example: user@example.com
+                password:
+                  type: string
+                  example: password123
+              required:
+              - email
+              - password
+    delete:
+      summary: Destroys a session
+      tags:
+      - Sessions
+      security:
+      - bearer_auth: []
+      parameters:
+      - name: Authorization
+        in: header
+        description: Bearer token for authentication
+        schema:
+          type: string
+      responses:
+        '204':
+          description: session destroyed
+        '401':
+          description: unauthorized
+  "/api/team_memberships":
+    get:
+      summary: Lists team memberships
+      tags:
+      - Team Memberships
+      security:
+      - bearer_auth: []
+      parameters:
+      - name: Authorization
+        in: header
+        description: Bearer token for authentication
+        schema:
+          type: string
+      responses:
+        '200':
+          description: team memberships found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                        type:
+                          type: string
+                          enum:
+                          - team_membership
+                        attributes:
+                          type: object
+                          properties:
+                            created_at:
+                              type: string
+                              format: date-time
+                            updated_at:
+                              type: string
+                              format: date-time
+                        relationships:
+                          type: object
+                          properties:
+                            user:
+                              type: object
+                              properties:
+                                data:
+                                  type: object
+                                  properties:
+                                    id:
+                                      type: string
+                                    type:
+                                      type: string
+                                      enum:
+                                      - user
+                  included:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                        type:
+                          type: string
+                          enum:
+                          - user
+                        attributes:
+                          type: object
+                          properties:
+                            email:
+                              type: string
+                            first_name:
+                              type: string
+                            last_name:
+                              type: string
+                            role:
+                              type: string
+                            hourly_rate:
+                              type: number
+                              nullable: true
+                            created_at:
+                              type: string
+                              format: date-time
+                            updated_at:
+                              type: string
+                              format: date-time
+        '401':
+          description: unauthorized
+    post:
+      summary: Creates a team membership
+      tags:
+      - Team Memberships
+      security:
+      - bearer_auth: []
+      parameters:
+      - name: Authorization
+        in: header
+        description: Bearer token for authentication
+        schema:
+          type: string
+      responses:
+        '201':
+          description: team membership created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                      type:
+                        type: string
+                        enum:
+                        - team_membership
+                      attributes:
+                        type: object
+                        properties:
+                          created_at:
+                            type: string
+                            format: date-time
+                          updated_at:
+                            type: string
+                            format: date-time
+                      relationships:
+                        type: object
+                        properties:
+                          user:
+                            type: object
+                            properties:
+                              data:
+                                type: object
+                                properties:
+                                  id:
+                                    type: string
+                                  type:
+                                    type: string
+                                    enum:
+                                    - user
+                  included:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                        type:
+                          type: string
+                          enum:
+                          - user
+                        attributes:
+                          type: object
+                          properties:
+                            email:
+                              type: string
+                            first_name:
+                              type: string
+                            last_name:
+                              type: string
+                            role:
+                              type: string
+                            hourly_rate:
+                              type: number
+                              nullable: true
+                            created_at:
+                              type: string
+                              format: date-time
+                            updated_at:
+                              type: string
+                              format: date-time
+        '401':
+          description: unauthorized
+        '403':
+          description: forbidden - user is not an owner
+        '422':
+          description: invalid request
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: object
+                  properties:
+                    user_id:
+                      type: integer
+                    team_id:
+                      type: integer
+                  required:
+                  - user_id
+                  - team_id
+  "/api/team_memberships/{id}":
+    parameters:
+    - name: id
+      in: path
+      required: true
+      description: Team Membership ID
+      schema:
+        type: integer
+    - name: Authorization
+      in: header
+      description: Bearer token for authentication
+      schema:
+        type: string
+    get:
+      summary: Retrieves a team membership
+      tags:
+      - Team Memberships
+      security:
+      - bearer_auth: []
+      responses:
+        '200':
+          description: team membership found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                      type:
+                        type: string
+                        enum:
+                        - team_membership
+                      attributes:
+                        type: object
+                        properties:
+                          created_at:
+                            type: string
+                            format: date-time
+                          updated_at:
+                            type: string
+                            format: date-time
+                      relationships:
+                        type: object
+                        properties:
+                          user:
+                            type: object
+                            properties:
+                              data:
+                                type: object
+                                properties:
+                                  id:
+                                    type: string
+                                  type:
+                                    type: string
+                                    enum:
+                                    - user
+                  included:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                        type:
+                          type: string
+                          enum:
+                          - user
+                        attributes:
+                          type: object
+                          properties:
+                            email:
+                              type: string
+                            first_name:
+                              type: string
+                            last_name:
+                              type: string
+                            role:
+                              type: string
+                            hourly_rate:
+                              type: number
+                              nullable: true
+                            created_at:
+                              type: string
+                              format: date-time
+                            updated_at:
+                              type: string
+                              format: date-time
+        '401':
+          description: unauthorized
+        '403':
+          description: forbidden - not organization owner or team member
+        '404':
+          description: team membership not found
+    delete:
+      summary: Deletes a team membership
+      tags:
+      - Team Memberships
+      security:
+      - bearer_auth: []
+      responses:
+        '204':
+          description: team membership deleted
+        '401':
+          description: unauthorized
+        '403':
+          description: forbidden - not organization owner
+        '404':
+          description: team membership not found
+  "/api/teams":
+    get:
+      summary: Lists teams
+      tags:
+      - Teams
+      security:
+      - bearer_auth: []
+      parameters:
+      - name: Authorization
+        in: header
+        description: Bearer token for authentication
+        schema:
+          type: string
+      responses:
+        '200':
+          description: teams found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                        type:
+                          type: string
+                          enum:
+                          - team
+                        attributes:
+                          type: object
+                          properties:
+                            name:
+                              type: string
+                            description:
+                              type: string
+                            organization_id:
+                              type: integer
+                            created_at:
+                              type: string
+                              format: date-time
+                            updated_at:
+                              type: string
+                              format: date-time
+        '401':
+          description: unauthorized
+    post:
+      summary: Creates a team
+      tags:
+      - Teams
+      security:
+      - bearer_auth: []
+      parameters:
+      - name: Authorization
+        in: header
+        description: Bearer token for authentication
+        schema:
+          type: string
+      responses:
+        '201':
+          description: team created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                      type:
+                        type: string
+                        enum:
+                        - team
+                      attributes:
+                        type: object
+                        properties:
+                          name:
+                            type: string
+                          description:
+                            type: string
+                          organization_id:
+                            type: integer
+                          created_at:
+                            type: string
+                            format: date-time
+                          updated_at:
+                            type: string
+                            format: date-time
+        '401':
+          description: unauthorized
+        '403':
+          description: forbidden - user is not an owner
+        '422':
+          description: invalid request
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                    description:
+                      type: string
+                    organization_id:
+                      type: integer
+                  required:
+                  - name
+                  - organization_id
+  "/api/teams/{id}":
+    parameters:
+    - name: id
+      in: path
+      required: true
+      description: Team ID
+      schema:
+        type: integer
+    - name: Authorization
+      in: header
+      description: Bearer token for authentication
+      schema:
+        type: string
+    get:
+      summary: Retrieves a team
+      tags:
+      - Teams
+      security:
+      - bearer_auth: []
+      responses:
+        '200':
+          description: team found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                      type:
+                        type: string
+                        enum:
+                        - team
+                      attributes:
+                        type: object
+                        properties:
+                          name:
+                            type: string
+                          description:
+                            type: string
+                          organization_id:
+                            type: integer
+                          created_at:
+                            type: string
+                            format: date-time
+                          updated_at:
+                            type: string
+                            format: date-time
+        '401':
+          description: unauthorized
+        '403':
+          description: forbidden - not organization owner or team member
+        '404':
+          description: team not found
+    put:
+      summary: Updates a team
+      tags:
+      - Teams
+      security:
+      - bearer_auth: []
+      parameters: []
+      responses:
+        '200':
+          description: team updated
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                      type:
+                        type: string
+                        enum:
+                        - team
+                      attributes:
+                        type: object
+                        properties:
+                          name:
+                            type: string
+                          description:
+                            type: string
+                          organization_id:
+                            type: integer
+                          created_at:
+                            type: string
+                            format: date-time
+                          updated_at:
+                            type: string
+                            format: date-time
+        '401':
+          description: unauthorized
+        '403':
+          description: forbidden - not organization owner
+        '404':
+          description: team not found
+        '422':
+          description: invalid request
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                    description:
+                      type: string
+    delete:
+      summary: Deletes a team
+      tags:
+      - Teams
+      security:
+      - bearer_auth: []
+      responses:
+        '204':
+          description: team deleted
+        '401':
+          description: unauthorized
+        '403':
+          description: forbidden - not organization owner
+        '404':
+          description: team not found
+  "/api/users":
+    get:
+      summary: Lists users
+      tags:
+      - Users
+      security:
+      - bearer_auth: []
+      parameters:
+      - name: Authorization
+        in: header
+        description: Bearer token for authentication
+        schema:
+          type: string
+      responses:
+        '200':
+          description: users found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                        email:
+                          type: string
+                        first_name:
+                          type: string
+                        last_name:
+                          type: string
+                        role:
+                          type: string
+    post:
+      summary: Creates a user
+      tags:
+      - Users
+      parameters: []
+      responses:
+        '201':
+          description: user created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                      email:
+                        type: string
+                      first_name:
+                        type: string
+                      last_name:
+                        type: string
+                      role:
+                        type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: object
+                  properties:
+                    email:
+                      type: string
+                    password:
+                      type: string
+                    first_name:
+                      type: string
+                    last_name:
+                      type: string
+                    role:
+                      type: string
+                      enum:
+                      - owner
+                      - employee
+                  required:
+                  - email
+                  - password
+  "/api/users/{id}":
+    parameters:
+    - name: id
+      in: path
+      required: true
+      schema:
+        type: integer
+    get:
+      summary: Retrieves a user
+      tags:
+      - Users
+      security:
+      - bearer_auth: []
+      responses:
+        '200':
+          description: user found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                      email:
+                        type: string
+                      first_name:
+                        type: string
+                      last_name:
+                        type: string
+                      role:
+                        type: string
+    delete:
+      summary: Deletes a user
+      tags:
+      - Users
+      security:
+      - bearer_auth: []
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: ID of the user to delete
+        schema:
+          type: integer
+      - name: Authorization
+        in: header
+        description: Bearer token for authentication
+        schema:
+          type: string
+      responses:
+        '204':
+          description: user deleted
+        '401':
+          description: unauthorized
+        '403':
+          description: forbidden
+        '404':
+          description: user not found
+  "/api/work_logs/info":
+    get:
+      summary: Get work logs info
+      tags:
+      - Work Logs
+      security:
+      - bearer_auth: []
+      parameters:
+      - name: Authorization
+        in: header
+        description: Bearer token for authentication
+        schema:
+          type: string
+      responses:
+        '200':
+          description: work logs info retrieved
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      total_count:
+                        type: integer
+        '401':
+          description: unauthorized
+  "/api/work_logs":
+    get:
+      summary: Lists work logs
+      tags:
+      - Work Logs
+      security:
+      - bearer_auth: []
+      parameters:
+      - name: Authorization
+        in: header
+        description: Bearer token for authentication
+        schema:
+          type: string
+      responses:
+        '200':
+          description: work logs found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                        type:
+                          type: string
+                          enum:
+                          - work_log
+                        attributes:
+                          type: object
+                          properties:
+                            start_time:
+                              type: string
+                              format: date-time
+                            end_time:
+                              type: string
+                              format: date-time
+                            activity_type:
+                              type: string
+                              enum:
+                              - development
+                              - remote_work
+                              - vacation
+                            description:
+                              type: string
+                            cost:
+                              type: string
+                              format: decimal
+                            created_at:
+                              type: string
+                              format: date-time
+                            updated_at:
+                              type: string
+                              format: date-time
+                        relationships:
+                          type: object
+                          properties:
+                            user:
+                              type: object
+                              properties:
+                                data:
+                                  type: object
+                                  properties:
+                                    id:
+                                      type: string
+                                    type:
+                                      type: string
+                                      enum:
+                                      - user
+                            project:
+                              type: object
+                              properties:
+                                data:
+                                  type: object
+                                  properties:
+                                    id:
+                                      type: string
+                                    type:
+                                      type: string
+                                      enum:
+                                      - project
+                  included:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                        type:
+                          type: string
+                          enum:
+                          - user
+                          - project
+                        attributes:
+                          type: object
+                          properties:
+                            email:
+                              type: string
+                            first_name:
+                              type: string
+                            last_name:
+                              type: string
+                            role:
+                              type: string
+                            hourly_rate:
+                              type: string
+                              format: decimal
+                            name:
+                              type: string
+                            description:
+                              type: string
+                            start_date:
+                              type: string
+                              format: date
+                              nullable: true
+                            end_date:
+                              type: string
+                              format: date
+                              nullable: true
+                            total_hours_spent:
+                              type: number
+                            organization_id:
+                              type: integer
+                            created_at:
+                              type: string
+                              format: date-time
+                            updated_at:
+                              type: string
+                              format: date-time
+        '401':
+          description: unauthorized
+    post:
+      summary: Creates a work log
+      tags:
+      - Work Logs
+      security:
+      - bearer_auth: []
+      parameters:
+      - name: Authorization
+        in: header
+        description: Bearer token for authentication
+        schema:
+          type: string
+      responses:
+        '201':
+          description: work log created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                      type:
+                        type: string
+                        enum:
+                        - work_log
+                      attributes:
+                        type: object
+                        properties:
+                          start_time:
+                            type: string
+                            format: date-time
+                          end_time:
+                            type: string
+                            format: date-time
+                          activity_type:
+                            type: string
+                            enum:
+                            - development
+                            - remote_work
+                            - vacation
+                          description:
+                            type: string
+                          cost:
+                            type: string
+                            format: decimal
+                          created_at:
+                            type: string
+                            format: date-time
+                          updated_at:
+                            type: string
+                            format: date-time
+        '401':
+          description: unauthorized
+        '422':
+          description: invalid request
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: object
+                  properties:
+                    start_time:
+                      type: string
+                      format: date-time
+                    end_time:
+                      type: string
+                      format: date-time
+                    activity_type:
+                      type: string
+                      enum:
+                      - development
+                      - remote_work
+                      - vacation
+                    description:
+                      type: string
+                    project_id:
+                      type: integer
+                  required:
+                  - start_time
+                  - end_time
+                  - activity_type
+                  - project_id
+  "/api/work_logs/{id}":
+    parameters:
+    - name: id
+      in: path
+      required: true
+      description: Work Log ID
+      schema:
+        type: integer
+    - name: Authorization
+      in: header
+      description: Bearer token for authentication
+      schema:
+        type: string
+    get:
+      summary: Retrieves a work log
+      tags:
+      - Work Logs
+      security:
+      - bearer_auth: []
+      responses:
+        '200':
+          description: work log found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                      type:
+                        type: string
+                        enum:
+                        - work_log
+                      attributes:
+                        type: object
+                        properties:
+                          start_time:
+                            type: string
+                            format: date-time
+                          end_time:
+                            type: string
+                            format: date-time
+                          activity_type:
+                            type: string
+                            enum:
+                            - development
+                            - remote_work
+                            - vacation
+                          description:
+                            type: string
+                          cost:
+                            type: string
+                            format: decimal
+                          created_at:
+                            type: string
+                            format: date-time
+                          updated_at:
+                            type: string
+                            format: date-time
+        '401':
+          description: unauthorized
+        '403':
+          description: forbidden - not organization owner or work log owner
+        '404':
+          description: work log not found
+    put:
+      summary: Updates a work log
+      tags:
+      - Work Logs
+      security:
+      - bearer_auth: []
+      parameters: []
+      responses:
+        '200':
+          description: work log updated
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                      type:
+                        type: string
+                        enum:
+                        - work_log
+                      attributes:
+                        type: object
+                        properties:
+                          start_time:
+                            type: string
+                            format: date-time
+                          end_time:
+                            type: string
+                            format: date-time
+                          activity_type:
+                            type: string
+                            enum:
+                            - development
+                            - remote_work
+                            - vacation
+                          description:
+                            type: string
+                          cost:
+                            type: string
+                            format: decimal
+                          created_at:
+                            type: string
+                            format: date-time
+                          updated_at:
+                            type: string
+                            format: date-time
+        '401':
+          description: unauthorized
+        '403':
+          description: forbidden - not organization owner or work log owner
+        '404':
+          description: work log not found
+        '422':
+          description: invalid request
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: object
+                  properties:
+                    start_time:
+                      type: string
+                      format: date-time
+                    end_time:
+                      type: string
+                      format: date-time
+                    activity_type:
+                      type: string
+                      enum:
+                      - development
+                      - remote_work
+                      - vacation
+                    description:
+                      type: string
+    delete:
+      summary: Deletes a work log
+      tags:
+      - Work Logs
+      security:
+      - bearer_auth: []
+      responses:
+        '204':
+          description: work log deleted
+        '401':
+          description: unauthorized
+        '403':
+          description: forbidden - not organization owner or work log owner
+        '404':
+          description: work log not found
+servers:
+- url: https://{defaultHost}
+  variables:
+    defaultHost:
+      default: www.example.com

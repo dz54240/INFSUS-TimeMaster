@@ -1,0 +1,38 @@
+# .rubocop.yml
+
+require:
+  - rubocop-rails
+  - rubocop-rspec
+
+AllCops:
+  NewCops: disable
+  Exclude:
+    - "bin/**"
+    - "config/**/*.rb"
+    - "db/schema.rb"
+    - "db/seeds.rb"
+    - "db/migrate/*.rb"
+    - "behaviour/**/*"
+    - "_spec/**/*"
+
+Style/Documentation:
+  Enabled: false
+
+Style/FrozenStringLiteralComment:
+  Enabled: true
+
+Naming/MethodName:
+  Exclude:
+    - "initialize"
+
+Layout/LineLength:
+  Max: 130
+
+Layout/IndentationWidth:
+  Width: 2
+
+Style/SymbolArray:
+  Enabled: false
+
+Rails/LexicallyScopedActionFilter:
+  Enabled: false
